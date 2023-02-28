@@ -1,6 +1,8 @@
 import styled, { createGlobalStyle } from "styled-components";
 import TelaLogin from "./components/TelaLogin/TelaLogin";
 import TelaCadastro from "./components/TelaCadastro/TelaCadastro";
+import TelaUsuarioCadastrado from "./components/TelaUsuarioCadastrado/TelaUsuarioCadastrado.js";
+import { useState } from "react";
 
 const GlobalStyled = createGlobalStyle`
   *{
@@ -15,11 +17,29 @@ const MainContainer = styled.main`
 
 function App() {
 
+  const [screen, setScreen] = useState('login')
+
+  const onClickSetScreen = (screenName) => {
+    setScreen(screenName)
+  }
+
+  const displayScreen = () => {
+    
+    switch (screen) {
+      case 'login':
+        return <TelaLogin onClickSetScreen={onClickSetScreen}/>;
+      case 'register':
+        return <TelaCadastro onClickSetScreen={onClickSetScreen}/>;
+      default:
+        return <TelaUsuarioCadastrado/>;
+    }
+
+  }
+
   return (
     <MainContainer >
       <GlobalStyled />
-      <TelaLogin />
-      <TelaCadastro />
+      {displayScreen()}
     </MainContainer>
   );
 }
